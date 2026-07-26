@@ -18,7 +18,7 @@ set(PICO_FLASH_SIZE_BYTES "(4 * 1024 * 1024)" CACHE STRING
 
 pico_sdk_init()
 
-set(YAJIR_SRC_ROOT ${CMAKE_CURRENT_LIST_DIR}/../..)
+set(YAJIR_SRC_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../../vendor/yajir/src)
 
 add_executable(yajir_pico2_w
     main.c

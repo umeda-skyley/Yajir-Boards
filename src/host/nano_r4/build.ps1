@@ -44,6 +44,10 @@ if ($Upload -and -not $Port) {
 }
 
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
+$yajirSource = Join-Path $repo 'vendor\yajir\src'
+if (-not (Test-Path -LiteralPath (Join-Path $yajirSource 'core\script.c'))) {
+    throw 'Yajir submodule is missing. Run: git submodule update --init --recursive'
+}
 $buildRoot = Join-Path $repo 'build\nano_r4'
 $stageRoot = Join-Path $repo 'build\nano_r4_stage'
 $sketch = Join-Path $stageRoot 'nano_r4'
@@ -60,11 +64,11 @@ New-Item -ItemType Directory -Path $buildRoot -Force | Out-Null
 
 # Arduino CLI copies a sketch before compiling it. Stage the unmodified Yajir
 # core beside the host so the normal Arduino builder can compile every C file.
-Get-ChildItem (Join-Path $repo 'src\core') -File |
+Get-ChildItem (Join-Path $yajirSource 'core') -File |
     Where-Object { $_.Extension -in '.c', '.h' } |
     Copy-Item -Destination $sketch -Force
-Copy-Item -LiteralPath (Join-Path $repo 'src\host\common\host_diag.c'),
-                           (Join-Path $repo 'src\host\common\host_diag.h') `
+Copy-Item -LiteralPath (Join-Path $yajirSource 'host\common\host_diag.c'),
+                           (Join-Path $yajirSource 'host\common\host_diag.h') `
           -Destination $sketch -Force
 Get-ChildItem $PSScriptRoot -File |
     Where-Object { $_.Extension -in '.ino', '.cpp', '.h' } |

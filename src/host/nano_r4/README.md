@@ -33,7 +33,7 @@ src\host\nano_r4\build.cmd -Upload
 自動検出できない場合や複数台接続時は、COMポートを明示できます。
 
 ```bat
-src\host\nano_r4\build.cmd -Upload -Port COM12
+src\host\nano_r4\build.cmd -Upload -Port COMxx
 ```
 
 Nano R4が通常モードで認識されない場合は、RESETボタンを素早く2回押すとブートローダへ入ります。

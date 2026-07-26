@@ -44,6 +44,10 @@ if ($Upload -and -not $Port) {
 }
 
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
+$yajirSource = Join-Path $repo 'vendor\yajir\src'
+if (-not (Test-Path -LiteralPath (Join-Path $yajirSource 'core\script.c'))) {
+    throw 'Yajir submodule is missing. Run: git submodule update --init --recursive'
+}
 $outputRoot = Join-Path $repo 'build\cardputer'
 $buildRoot = Join-Path ([IO.Path]::GetTempPath()) 'yajir_cardputer_build'
 $stageRoot = Join-Path $repo 'build\cardputer_stage'
@@ -71,11 +75,11 @@ if (Test-Path -LiteralPath $buildFull) {
 }
 New-Item -ItemType Directory -Path $buildFull -Force | Out-Null
 
-Get-ChildItem (Join-Path $repo 'src\core') -File |
+Get-ChildItem (Join-Path $yajirSource 'core') -File |
     Where-Object { $_.Extension -in '.c', '.h' } |
     Copy-Item -Destination $sketch -Force
-Copy-Item -LiteralPath (Join-Path $repo 'src\host\common\host_diag.c'),
-                           (Join-Path $repo 'src\host\common\host_diag.h') `
+Copy-Item -LiteralPath (Join-Path $yajirSource 'host\common\host_diag.c'),
+                           (Join-Path $yajirSource 'host\common\host_diag.h') `
           -Destination $sketch -Force
 Get-ChildItem $PSScriptRoot -File |
     Where-Object { $_.Extension -in '.ino', '.cpp', '.h' } |

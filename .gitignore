@@ -1,8 +1,3 @@
-# local secrets
-.env
-.env.*
-!.env.template
-
 # build artifacts
 /build/
 *.o
@@ -20,22 +15,6 @@
 Thumbs.db
 .DS_Store
 
-# local design notes
-docs/work/
-
 # local board upload helpers
 src/host/nano_r4/upload.cmd
 src/host/cardputer/upload.cmd
-
-# CubeMX生成のmain.c（STMicroのテンプレート由来・コピーライト表記あり）は非公開に留める
-src/host/stm32_l476/main.c
-
-# 仕様書メモ（開発用ローカル・非push）。公開する変更履歴は change_history.md に分離済み。
-script_spec_v*.md
-
-# 作業規約メモ（Claude Code 用の恒久指示）はローカルのみ・非push。
-CLAUDE.md
-AGENTS.md
-
-# 設計検討メモ（*.local.md）はローカルのみ・非push。実装前の技術メモ置き場。
-*.local.md

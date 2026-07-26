@@ -1,0 +1,4 @@
+[submodule "vendor/yajir"]
+	path = vendor/yajir
+	url = https://github.com/umeda-skyley/Yajir.git
+	branch = main
